@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>NHK手話ニュース・動画</title>
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="JavaScript" />
+<meta name="description" content="NHK手話ニュース/NHK手話ニュース845/週間手話ニュース/こども手話ウイークリーのすべてがわかる公式サイト。「手話ニュース845」をその日のうちに動画配信！キャスターの動画「手話ニュース通信」もお楽しみに。手話の勉強にもどうぞ。" />
+<meta name="keywords" xml:lang="ja" lang="ja" content="ＮＨＫ手話ニュース,ＮＨＫ手話ニュース845,週間手話ニュース,こども手話ウイークリー,手話,赤堀仁美,板鼻英二,小野広祐,小野寺善子,河合祐三子,木村晴美,工藤咲子,戸田康之,中野佐世子,那須英彰,野口岳史" />
+<meta name="shorturl" content="https://nhk.jp/shuwa">
+<meta name="author" content="日本放送協会" />
+<meta name="copyright" content="NHK(Japan Broadcasting Corporation)" />
+<meta property="og:type" content="tv_show" />
+<meta property="og:title" content="NHK手話ニュース・動画" />
+<meta property="og:description" content="NHK手話ニュースのすべてがわかる公式サイト。手話と字幕で、わかりやすいニュース動画も配信中。キャスターの手話コラム「手話ニュース通信」もあるよ。" />
+<meta property="og:url" content="https://nhk.jp/shuwa" />
+<meta property="og:image" content="https://www.nhk.or.jp/shuwa/common/image/movie_logo.jpg" />
+
+<link rel="stylesheet" type="text/css" href="css/import_180402.css" media="all" />
+<link rel="stylesheet" type="text/css" href="css/shadowbox.css" />
+<link rel="stylesheet" type="text/css" href="css/modal180402.css" />
+<link rel="stylesheet" type="text/css" href="css/news_201022.css" />
+<link rel="stylesheet" type="text/css" href="kodomo/css/kodomo.css" media="all" />
+
+
+<script type="text/javascript" src="/common/jquery/jquery-3.1.js"></script>
+<script type="text/javascript" src="/common/jquery/jquery.js"></script><!-- v1.8 -->
+<script type="text/javascript">
+    var $108 = jQuery.noConflict(true);
+</script>
+    
+<script type="text/javascript" src="/common/sp/nol_SmartPhone.js"></script>
+<script type="text/javascript" src="/common/sns/nol_share.js" charset="UTF-8"></script>
+    
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/jquery.scroll.js"></script>
+<script type="text/javascript" src="js/jquery.jcarousel.js"></script>
+<script type="text/javascript" src="js/shadowbox.js"></script>
+
+<script type="text/javascript" src="js/fontSizer.js"></script>
+<script type="text/javascript" src="js/common_180312.js"></script>
+<script type="text/javascript" src="js/news_190412.js"></script>
+<script type="text/javascript" src="js/tsuushin_170302.js"></script>
+<script type="text/javascript" src="js/info_201030.js"></script>
+<script type="text/javascript" src="js/nhkplus_200522.js"></script>
+<script type="text/javascript" src="js/tokusetsu_170707.js"></script>
+<script type="text/javascript" src="js/toppage_180312.js"></script>
+<script type="text/javascript" src="js/kodomo_archives_180312.js"></script>
+<script type="text/javascript" src="js/pg_180312.js"></script>
+
+</head>
+<body id="pagetop">
+<script type="text/javascript">
+    var params = nol_getDeviceType();
+    if (params[0] == "smart") {nol_showSpLead({callback:function(){window.location.href='sp/index.html';}})};    
+    nol_showCmnHeader({minWidth:1000});
+</script>
+<div id="bgWrap">
+<div id="wrap">
+    <div id="header">
+		<h1><a href="index.html"><span>NHK手話ニュース</span></a></h1>
+		<div id="snsbt">
+			<div id="sns">
+				<div class="nhk-snsbtn" data-nhksns-disable="google" data-nhksns-iconsize="s"></div>
+			</div>
+			<div id="notice">
+				<p>※NHKのサイトを離れます</p>
+			</div>
+		</div>
+		<ul id="fontChange">
+			<li id="fontS"><img src="img/bt-s.gif" width="20" height="30" alt="小" /></li>
+			<li id="fontM"><img src="img/bt-m.gif" width="25" height="30" alt="中" /></li>
+			<li id="fontL"><img src="img/bt-l.gif" width="30" height="30" alt="大" /></li>
+		</ul>
+	</div>
+	<div id="content" class="clearfix">
+		<div id="contLeft">
+			<div id="marqueenews">
+				<ul id="marquee1" class="marquee">
+				</ul>
+			</div>
+            
+			<h2 id="h2_04" class="mb_20px"><span>特設ニュース</span></h2>
+			<div id="tokusetsu" class="box01 clearfix"></div>
+
+            <h2 id="h2_01" class="mb_20px"><span>動画ニュース</span></h2>
+            <div id="tab"></div>
+            <div id="movienews"></div>
+
+			<h3 id="h3_04" class="mb_5px"><span>こども手話ウィークリー</span></h3>
+			<div id="kodomo" class="kodomo clearfix"></div>
+		</div>
+
+		<div id="contRight">
+            <section class="newsArticleBlock" style="display: none;">
+               <h3><img src="img/news_title.jpg" alt="お知らせ"></h3>
+               <ul></ul>
+            </section>
+            
+            <h3 id="h3_01"><span>手話ニュース通信</span></h3>
+			<div id="tsuushin" class="box05 clearfix"></div>
+            
+            <h3 id="h3_21"><span>ＮＨＫプラス</span></h3>
+			<div id="nhkplus" class="box05 clearfix"></div>
+            <button class="btn-nhkplus" onclick="location.href='https://plus.nhk.jp/watch/ch/e1'">ＮＨＫプラス</button>        
+			<div class="box06 clearfix">
+				<h3 id="h3_02"><span>番組サイト</span></h3>
+				<ul>
+					<!-- JS Writing Area -->
+				</ul>
+			</div>
+           
+           <ul class="box07">
+			   <li><a href="https://www.nhk.or.jp/strl/sl-weather/" target="_blank"><img src="img/07_banner_01.jpg" alt="NHK 気象情報手話CG" class="tranc"></a></li>
+			   <li><a href="https://www.nhk.or.jp/heart-net/syuwa/index.html" target="_blank"><img src="img/07_banner_02.jpg" alt="みんなの手話" class="tranc"></a></li>
+			   <li><a href="https://www.nhk.or.jp/heart-net/program/rounan/" target="_blank"><img src="img/07_banner_03.jpg" alt="ろうを生きる　難聴を生きる" class="tranc"></a></li>
+           </ul>
+            
+		</div>
+	</div>
+	
+    
+</div>
+
+<div class="footerWrap">
+<div class="footerWrapContents">
+<div id="go_to_top">
+	<div class="wrap"><a href="#pagetop">▲ ページの先頭へ</a></div>
+</div>
+
+<script type="text/javascript">nol_showCmnFooter();</script>
+
+</div>
+</div>
+    
+<div id="modal-news">
+    <div class="modal-news-header"></div>
+    <div class="modal-news-close-btn"><a href="javascript:;"></a></div>
+    <p class="modal-news-title"></p>
+    <div class="modal-movie"></div>
+    <img src="img/newsplayer_header.jpg" width="0" height="0" class="preload">
+    <img src="img/newsplayer_btn_hl.jpg" width="0" height="0" class="preload">
+    <img src="img/newsplayer_btn_no.jpg" width="0" height="0" class="preload">
+</div>
+<div id="modal-nhkplus">
+    <div class="modal-nhkplus-header"></div>
+    <div class="modal-nhkplus-close-btn"><a href="javascript:;"></a></div>
+    <p class="modal-nhkplus-title"></p>
+    <div class="modal-movie"></div>
+    <img src="img/newsplayer_header.jpg" width="0" height="0" class="preload">
+    <img src="img/newsplayer_btn_hl.jpg" width="0" height="0" class="preload">
+    <img src="img/newsplayer_btn_no.jpg" width="0" height="0" class="preload">
+</div>    
+<div id="modal-tsuushin">
+    <div class="modal-tsuushin-header"></div>
+    <div class="modal-tsuushin-close-btn"><a href="javascript:;"></a></div>
+    <p class="modal-tsuushin-title"></p>
+    <div class="modal-movie"></div>
+    <img src="img/tsuushinplayer_bg.png" class="preload" width="0" height="0">
+    <img src="img/tsuushinplayer_btn_hl.png" class="preload" width="0" height="0">
+    <img src="img/tsuushinplayer_btn_no.png" class="preload" width="0" height="0">
+</div>
+<div id="modal-kodomo">
+    <div class="modal-kodomo-header"></div>
+    <div class="modal-kodomo-close-btn"><a href="javascript:;"></a></div>
+    <p class="modal-kodomo-title"></p>
+    <div class="modal-movie"></div>
+    <img src="kodomo/img/kodomoplayer_bg_y18.png" width="0" height="0" class="preload">
+    <img src="kodomo/img/kodomoplayer_btn_hl.png" width="0" height="0" class="preload">
+    <img src="kodomo/img/kodomoplayer_btn_no.png" width="0" height="0" class="preload">
+</div>
+    
+</div>
+</body>
+</html>
