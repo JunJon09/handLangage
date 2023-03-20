@@ -6,12 +6,14 @@
 
 
 * requests 2.28.2
+* selenium 4.8.2
 
 # Installation
 
 
 ```bash
 pip3 install requests
+pip3 install selenium
 ```
 
 # Usage
