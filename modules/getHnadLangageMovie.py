@@ -9,21 +9,26 @@ from time import sleep
 import os
 import subprocess
 from selenium.webdriver.chrome.options import Options
+import schedule  #importした時点でscheduler.Scheduler()が待機してくれます
+import mojimoji
 
 
 #NHK動画を取得する。
 def scrapingMovie():
     """
-    https://www.nhk.or.jp/shuwa から毎日ショートニュースデータを取得する。
+    https://www.nhk.or.jp/shuwa/sp/index.html から毎日ショートニュースデータを取得する。
     """
     url = "https://www.nhk.or.jp/shuwa/sp/index.html"
     chromDriverPath = "../chromdriver"
+
     dt_now = datetime.datetime.now()
     currentDay = str(dt_now.year) + "-" + str(dt_now.month).zfill(2) + "-" + str(dt_now.day).zfill(2)
-
+    #動画が更新されてるかどうかのチャックのため
+    day = str(dt_now.day)
+    month = str(dt_now.month)
     try:
         driver = openChrom(chromDriverPath, url)
-        path = getNHKNewsPath(driver)
+        path = getNHKNewsPath(driver, month, day)
         cmd = changePath(path, currentDay)
         driver.quit()
         getNHKNewMovie(cmd)
@@ -44,12 +49,14 @@ def openChrom(chromDriverPath, url):
     return driver
 
 #動画のパスを取得
-def getNHKNewsPath(driver):
+def getNHKNewsPath(driver, month, day):
     setClassElements = driver.find_elements(By.CLASS_NAME, "mnbox")
 
     for i, elements in enumerate(setClassElements): #日が短いショートニュースを取得
         if elements.text.find("ショートニュース") != -1:
             getClassNumber = i
+            if elements.text.find(mojimoji.han_to_zen(month)) == -1 or elements.text.find(mojimoji.han_to_zen(day)) == -1:
+               raise ValueError 
             break
         
     setClassElements[getClassNumber].click() #clickしてshuwaplayerを表示させる
@@ -82,3 +89,13 @@ def getNHKNewMovie(cmd):
     subprocess.run('./movie.sh', shell = True)
 
     os.remove("./movie.sh")
+
+schedule.every().monday.at("23:00").do(scrapingMovie)
+schedule.every().tuesday.at("23:00").do(scrapingMovie)
+schedule.every().wednesday.at("23:00").do(scrapingMovie)
+schedule.every().thursday.at("23:00").do(scrapingMovie)
+schedule.every().friday.at("23:00").do(scrapingMovie)
+
+while True:
+    schedule.run_pending()
+    sleep(1)

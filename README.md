@@ -14,6 +14,9 @@
 ```bash
 pip3 install requests
 pip3 install selenium
+brew list ffmpeg
+pip3 install schedule
+pip3 install mojimoji
 ```
 
 # Usage
