@@ -9,7 +9,7 @@ from time import sleep
 import os
 import subprocess
 from selenium.webdriver.chrome.options import Options
-import schedule  #importした時点でscheduler.Scheduler()が待機してくれます
+import schedule 
 import mojimoji
 
 
@@ -24,7 +24,7 @@ def scrapingMovie():
     dt_now = datetime.datetime.now()
     currentDay = str(dt_now.year) + "-" + str(dt_now.month).zfill(2) + "-" + str(dt_now.day).zfill(2)
     #動画が更新されてるかどうかのチャックのため
-    day = str(dt_now.day)
+    day = str(21)
     month = str(dt_now.month)
     try:
         driver = openChrom(chromDriverPath, url)
@@ -76,19 +76,25 @@ def changePath(path, day):
     temp = path.split('shuwa')
     movieName = temp[1].split(".html?")
 
-    cmd = "echo n | ffmpeg -i  https://vod-stream.nhk.jp/shuwa" + movieName[0] + "/index.m3u8 -c copy -bsf:a aac_adtstoasc " + "'../data/Movie/NHKNews/" + day + ".mp4'\n"
-    
+    cmd = "echo n | ffmpeg -analyzeduration 50M -i https://vod-stream.nhk.jp/shuwa" + movieName[0] + "/index.m3u8 -c copy " + "'../data/Movie/NHKNews/" + day + ".mp4'\n"
     return cmd
     
 
 def getNHKNewMovie(cmd):
     with open("./movie.sh", mode='w') as f:
         f.write(cmd)
+    f.close()
     
     subprocess.run("chmod 777 ./movie.sh", shell = True)
     subprocess.run('./movie.sh', shell = True)
 
     os.remove("./movie.sh")
+
+    #一応cmdを別のとこに履歴として保存
+    with open("../data/ShellText/NHKNews/cmd.sh", mode="a") as f:
+        f.write(cmd)
+        f.write("\n")
+    f.close()
 
 schedule.every().monday.at("23:00").do(scrapingMovie)
 schedule.every().tuesday.at("23:00").do(scrapingMovie)
