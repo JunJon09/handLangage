@@ -24,7 +24,7 @@ def scrapingMovie():
     dt_now = datetime.datetime.now()
     currentDay = str(dt_now.year) + "-" + str(dt_now.month).zfill(2) + "-" + str(dt_now.day).zfill(2)
     #動画が更新されてるかどうかのチャックのため
-    day = str(21)
+    day = str(dt_now.day)
     month = str(dt_now.month)
     try:
         driver = openChrom(chromDriverPath, url)
