@@ -16,7 +16,7 @@ import mojimoji
 #NHK動画を取得する。
 def scrapingMovie():
     """
-    https://www.nhk.or.jp/shuwa/sp/index.html から毎日ショートニュースデータを取得する。
+    https://www.nhk.or.jp/shuwa/sp/index.html から毎日ショートニュース動画を取得する。
     """
     url = "https://www.nhk.or.jp/shuwa/sp/index.html"
     chromDriverPath = "../chromdriver"
