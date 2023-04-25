@@ -11,6 +11,7 @@ from pydub import AudioSegment
 #手話映像を一文の映像に切り取る
 def oneSentence():
     movie_file = '../data/Movie/NHKNews/2023-03-22.mp4'
+
     wav_file = '../data/Wav/NHKNews/2023-03-24.wav'
     file_name = os.path.splitext(os.path.basename(movie_file))[0] #hoge.pyのhoge取得(ファイル名)
     result_path = "../data/OneSentenceMovie/NHKNews"
@@ -380,7 +381,7 @@ def cutOneSentence(sentences, file_name, movie_file, result_path, time_differenc
         mov_duration = sentence["to"] - sentence["from"]
         print("to:{} from:{} duration:{}".format(sentence["to"], sentence["from"], mov_duration))
         cmd = 'echo n | ffmpeg -ss {} -i \"{}\" -t {} \"{}/{}.mp4\"'.format(sentence["from"], movie_file, mov_duration, result_path, result_file)
-
+        print(cmd)
         subprocess.run(cmd, shell = True)  #動画切り取りコマンド実行
         with open(result_path + '/cut_time_target.csv', 'a') as f:
             writer = csv.writer(f)

@@ -18,6 +18,8 @@ brew list ffmpeg
 pip3 install schedule
 pip3 install mojimoji
 pip3 install SpeechRecognition
+pip3 install mecab-python3
+pip3 install unidic-lite
 ```
 
 # Usage
