@@ -58,7 +58,7 @@ def main():
                 if k == 5:
                     break
             
-            print("本当の答え", wordList[i])
+            print("本当の答え:", wordList[i])
             print("*"*100)
         oneAnswerList.append(oneAnswerCount)
         fiveAnswerList.append(fiveAnswerCount)
