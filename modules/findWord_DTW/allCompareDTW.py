@@ -18,7 +18,6 @@ def main():
     testBodyList = []
     for word in wordList:
         left, right, body = moveDTW.getData(word)
-        print(word)
         train, test = split_data(left)
         trainLeftList.append(train)
         testLeftList.append(test)
@@ -59,8 +58,10 @@ def main():
             dispersionSorted_list = sortedRank(dispersionList)
 
             # 結果を表示
-            oneAnswerCount, fiveAnswerCount = printAnswer(averageSorted_list, i) #平均
-            dispersiononeAnswerCount, dispersionfiveAnswerCount = printAnswer(dispersionSorted_list, i) #分散
+            print("平均")
+            oneAnswerCount, fiveAnswerCount = printAnswer(averageSorted_list, i, oneAnswerCount, fiveAnswerCount) #平均
+            print("分散")
+            dispersiononeAnswerCount, dispersionfiveAnswerCount = printAnswer(dispersionSorted_list, i, dispersiononeAnswerCount, dispersionfiveAnswerCount) #分散
             print("本当の答え:", wordList[i])
             print("*"*100)
         
@@ -86,7 +87,7 @@ def sortedRank(distanceList):
     return sorted_list
 
 #一単語の出力結果を表示
-def printAnswer(sorted_list, i):
+def printAnswer(sorted_list, i, oneAnswerCount, fiveAnswerCount):
     for k, (index, value) in enumerate(sorted_list, start=1):
         print(f"{k}: {value} 単語 {wordList[index]}")
         if wordList[index] == wordList[i]:
