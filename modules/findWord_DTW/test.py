@@ -1,11 +1,16 @@
-listA = [3.1, 2.1, 4]
+from fastdtw import fastdtw
+from scipy.spatial.distance import euclidean
+import numpy as np
 
-# 値とそのインデックスのペアを作成
-indexed_list = list(enumerate(listA))
-print(indexed_list)
-# 値でソート
-sorted_list = sorted(indexed_list, key=lambda x: x[1])
-print(sorted_list)
-# 結果を表示
-for i, (index, value) in enumerate(sorted_list, start=1):
-    print(f"{i}: {value} index {index}")
+def euclidean_dtw(X, Y):
+    """Calculate Dynamic Time Warping distance with Euclidean distance as the element distance measure."""
+    distance, path = fastdtw(X, Y, dist=euclidean)
+    return distance
+
+# Example usage:
+X = np.random.rand(100, 3)  # Some 2-D Time series data
+Y = np.random.rand(100, 3)  # Some other 2-D Time series data
+print(X)
+
+# print("MD-DTW Distance: ", md_dtw(X, Y))
+print("Euclidean DTW Distance: ", euclidean_dtw(X, Y))

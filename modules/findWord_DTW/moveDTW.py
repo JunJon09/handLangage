@@ -5,6 +5,7 @@ import pickle
 from sklearn.model_selection import train_test_split
 import math
 from statistics import variance 
+import compareFeatureValue
 
 def moveDTW():
     word = "Japan"
@@ -55,11 +56,10 @@ dataは[[[x, y, z],....]], [[x, y, z]....]]]
 """
 
 def learning(train_left, test_left, train_right, test_right, train_body, test_body):
-    left_distance, left_dispersion = getDistance(test_left, train_left)
-    right_distance, right_dispersion = getDistance(train_right, test_right)
-    body_distance, body_dispersion = getDistance(train_body, test_body)
+    left_distance, left_dispersion = getDistance(test_left, train_left, 0)
+    right_distance, right_dispersion = getDistance(train_right, test_right, 1)
+    body_distance, body_dispersion = getDistance(train_body, test_body, 2)
     distanceList = []
-
     for i in range(len(left_distance)): 
         distance = left_distance[i] + right_distance[i] + body_distance[i]
         distance = math.sqrt(distance)
@@ -71,32 +71,36 @@ def learning(train_left, test_left, train_right, test_right, train_body, test_bo
     return sum(distanceList) / len(distanceList), variance(dispersionList)
     
 #DTWを使用してテストデータと訓練データの距離を取得する
-def getDistance(test, train):
+def getDistance(test, train, flag):
     distanceList = []
     distanceDispersionList = [] #分散のために使用
+    
     for te in test:
         data1_left = setData(te, len(train[0][0]))
         for tr in train:
             data2_left = setData(tr, len(train[0][0]))
             distance_sum_1 = 0
             distance_sum_2 = 0
+            distanceSort = []
             for d_1, d_2 in zip(data1_left, data2_left):
                 distance, path = fastdtw(d_1, d_2)
                 distance_sum_1 += distance
                 distance_sum_2 += (distance**2)
+                distanceSort.append(distance)
+            compareFeatureValue.main(distanceSort, flag)
             distanceDispersionList.append(distance_sum_1)
             distanceList.append(distance_sum_2)
     return distanceList, distanceDispersionList
 
 #データをnumpyに変換して例として手の親指の付け根のx座標を時系列順にする。(他のも同様)
 def setData(data, data_len):
-   dataSet = []
-   data = np.array(data)
-   for i in range(data_len):
+    dataSet = []
+    data = np.array(data)
+    for i in range(data_len):
         for j in range(2):
             tmp = data[:, i, j]
             dataSet.append(tmp)
-   return dataSet
+    return dataSet
 
 #エラーが起きた時に使用するテストコード
 def test_error(data):

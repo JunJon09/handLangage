@@ -106,7 +106,7 @@ def showSignLanguageSpeed(nosePositions, leftWristPositions, rightWristPositions
             y.append(speed/2)
 
     tmp = []
-    print(FPS)
+    print(FPS, "knrknignignirngi")
     print(len(y), y)
     for i, s in enumerate(y):
         if i != 0 and i+1 != len(y):

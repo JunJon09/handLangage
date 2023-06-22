@@ -1,47 +1,22 @@
-import moveDTW
-from sklearn.model_selection import train_test_split
-import time
-import compareFeatureValue
-
+import getInfo
+import moveMD_DTW
 """
-多数の単語を比べて距離の近さから単語を考える
+MD_DTWを実行する関数
+MD_DTWは、x, y, zなどの三次元のグラフを一気に比べることが可能
 """
 def main():
-    f = open('word.txt', 'r', encoding='UTF-8')
-    data = f.readlines()
     global wordList
-    wordList = [d.replace("\n", "") for d in data]
-    
-    trainLeftList = []
-    trainRightList = []
-    trainBodyList = []
-    testLeftList = []
-    testRightList = []
-    testBodyList = []
-    for word in wordList:
-        left, right, body = moveDTW.getData(word)
-        train, test = split_data(left)
-        trainLeftList.append(train)
-        testLeftList.append(test)
-
-        train, test = split_data(right)
-        trainRightList.append(train)
-        testRightList.append(test)
-
-        train, test = split_data(body)
-        trainBodyList.append(train)
-        testBodyList.append(test)
-
+    trainLeftList, trainRightList, trainBodyList, testLeftList, testRightList, testBodyList, wordList = getInfo.info()
     oneAnswerList = []
     fiveAnswerList = []
     dispersiononeAnswerList = []
     dispersionfiveAnswerList = []
-    for i in range(len(testLeftList)): #len(20)単語同士で比較
+    for i in range(len(testLeftList)):
         oneAnswerCount = 0 
         fiveAnswerCount = 0
         dispersiononeAnswerCount = 0
         dispersionfiveAnswerCount = 0
-        for k in range(5): #testデータ5
+        for k in range(5):
             distanceList = []
             dispersionList = []
             left = []
@@ -51,7 +26,7 @@ def main():
             right.append(testRightList[i][k])
             body.append(testBodyList[i][k])
             for j in range(len(trainLeftList)):
-                distance, dispersion = moveDTW.learning(trainLeftList[j], left, trainRightList[j], right, trainBodyList[j], body)
+                distance, dispersion = moveMD_DTW.learning(trainLeftList[j], left, trainRightList[j], right, trainBodyList[j], body)
                 distanceList.append(distance)
                 dispersionList.append(dispersion)
             
@@ -71,18 +46,9 @@ def main():
         fiveAnswerList.append(fiveAnswerCount)
         dispersiononeAnswerList.append(dispersiononeAnswerCount)
         dispersionfiveAnswerList.append(dispersionfiveAnswerCount)
-
-    #全ての結果を表示
-    compareFeatureValue.showPlt()
-
-    printALlAnswer(oneAnswerList, fiveAnswerList)
-    printALlAnswer(dispersiononeAnswerList, dispersionfiveAnswerList)
-
-
-
-def split_data(data):
-    train, test = train_test_split(data, test_size=5)
-    return train, test
+         #全ての結果を表示
+        printALlAnswer(oneAnswerList, fiveAnswerList)
+        printALlAnswer(dispersiononeAnswerList, dispersionfiveAnswerList)
 
 #順位の並び替え
 def sortedRank(distanceList):
@@ -112,6 +78,5 @@ def printALlAnswer(oneList, fiveList):
         print(f"{wordList[i]}の正解数: 1位 {one}/5 {(one/5) *100}% 5位まで {five}/5 {(five/5)*100}%")
     print(f"全体の正解数: 1位 {one_sum}/100 {one_sum}% 5位まで {five_sum}/100 {five_sum}%")
 
-
-if __name__ == "__main__": 
+if __name__ == "__main__":
     main()
