@@ -22,7 +22,7 @@ def getData(word):
     left = []
     right = []
     body = []
-    for i in range(30):
+    for i in range(31):
         absolutePath = Path + word + str(i)
         leftPath = absolutePath+ "_left.bin"
         rightPath = absolutePath + "_right.bin"
@@ -98,7 +98,11 @@ def setData(data, data_len):
     data = np.array(data)
     for i in range(data_len):
         for j in range(2):
-            tmp = data[:, i, j]
+            try:
+                tmp = data[:, i, j]
+            except:
+                print(data, tmp, len(tmp))
+                raise Exception
             dataSet.append(tmp)
     return dataSet
 

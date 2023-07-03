@@ -61,9 +61,9 @@ def main():
 
             # 結果を表示
             print("平均")
-            oneAnswerCount, fiveAnswerCount = printAnswer(averageSorted_list, i, oneAnswerCount, fiveAnswerCount) #平均
+            oneAnswerCount, fiveAnswerCount = printAnswer(averageSorted_list, i, oneAnswerCount, fiveAnswerCount, wordList) #平均
             print("分散")
-            dispersiononeAnswerCount, dispersionfiveAnswerCount = printAnswer(dispersionSorted_list, i, dispersiononeAnswerCount, dispersionfiveAnswerCount) #分散
+            dispersiononeAnswerCount, dispersionfiveAnswerCount = printAnswer(dispersionSorted_list, i, dispersiononeAnswerCount, dispersionfiveAnswerCount, wordList) #分散
             print("本当の答え:", wordList[i])
             print("*"*100)
         
@@ -91,14 +91,14 @@ def sortedRank(distanceList):
     return sorted_list
 
 #一単語の出力結果を表示
-def printAnswer(sorted_list, i, oneAnswerCount, fiveAnswerCount):
+def printAnswer(sorted_list, i, oneAnswerCount, fiveAnswerCount, wordList):
     for k, (index, value) in enumerate(sorted_list, start=1):
         print(f"{k}: {value} 単語 {wordList[index]}")
         if wordList[index] == wordList[i]:
             if k == 1:
                 oneAnswerCount += 1
             fiveAnswerCount += 1
-        if k == 5:
+        if k ==3:
             break
     return oneAnswerCount, fiveAnswerCount
 

@@ -9,14 +9,13 @@ def writeSKelton():
     leftList = []
     rightList = []
     bodyList = []
-    print(files[0])
     for i, file in enumerate(files):
         left, right, body = getSkltooPosition(file)
         left = fixList(left)
         right = fixList(right)
         body = fixList(body)
         if len(left) == 0 or len(right) == 0 or len(body) == 0:
-            print(i)
+            print(i, "tttt")
             continue
         writePickle(left, right, body, str(i))
     
@@ -154,4 +153,4 @@ def writePickle(left, right, body, number):
         pickle.dump(body, p)
 
 
-writeSKelton()
+# writeSKelton()
